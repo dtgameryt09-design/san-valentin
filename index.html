@@ -3,194 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi personita especial ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:italic,wght@0,400;0,700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --color-fondo: #feeaf1;
-            --color-sobre: #ff9fb2;
-            --color-tapa: #ff7b97;
-            --color-carta: #ffffff;
-            --color-texto: #4a3035;
-            --color-acento: #ff4d6d;
+            --fondo: #fdf5e6;
+            --texto: #4a4a4a;
+            --acentos: #b08d8d;
+            --dorado: #d4a373;
         }
 
-        * { box-sizing: border-box; }
-
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: var(--color-fondo);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden;
-        }
-
-        /* Corazones flotantes de fondo */
-        .corazon {
-            position: absolute;
-            color: var(--color-acento);
-            font-size: 20px;
-            opacity: 0.4;
-            animation: flotar 6s linear infinite;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        @keyframes flotar {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        body { 
+            background-color: var(--fondo); 
+            font-family: 'Montserrat', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* Contenedor Principal */
-        .sobre-wrapper {
-            position: relative;
-            width: 320px;
-            height: 200px;
-            z-index: 10;
-            cursor: pointer;
-        }
-
-        /* El cuerpo del sobre */
-        .sobre-cuerpo {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--color-sobre);
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            z-index: 15;
-        }
-
-        /* La Tapa del sobre */
-        .sobre-tapa {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 160px solid transparent;
-            border-right: 160px solid transparent;
-            border-top: 120px solid var(--color-tapa);
-            transform-origin: top;
-            transition: transform 0.6s ease-in-out, z-index 0.6s;
-            z-index: 25; /* Al inicio está al frente */
-        }
-
-        /* La Carta */
-        .carta {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            width: 300px;
-            height: 180px;
-            background: var(--color-carta);
-            padding: 25px;
-            border-radius: 10px;
-            transition: transform 0.8s ease-in-out, height 0.8s ease-in-out;
-            z-index: 10; /* Dentro del sobre */
-            box-shadow: 0 0 15px rgba(0,0,0,0.05);
-            overflow-y: auto;
-        }
-
-        .carta h2 {
-            font-family: 'Dancing Script', cursive;
-            color: var(--color-acento);
+        .container {
+            width: 90%;
+            max-width: 450px;
             text-align: center;
+            padding: 20px;
+        }
+
+        /* Estilo del Sobre */
+        .envelope-wrapper { 
+            cursor: pointer; 
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+
+        .envelope-wrapper:active { transform: scale(0.9); }
+
+        .instruction { 
+            font-family: 'Playfair Display', serif; 
+            font-style: italic; 
+            font-size: 1.1rem; 
+            margin-bottom: 25px; 
+            color: #8e6d5d; 
+            animation: pulse 2s infinite; 
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        .envelope-icon {
+            font-size: 100px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+            user-select: none;
+        }
+
+        /* Estilo de la Carta */
+        .letter-content { 
+            display: none; 
+            background: white; 
+            padding: 35px 25px; 
+            border-radius: 15px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06); 
+            border: 1px solid #f2ece4;
+            text-align: left;
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        @keyframes slideUp { 
+            from { transform: translateY(30px); opacity: 0; } 
+            to { transform: translateY(0); opacity: 1; } 
+        }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.7rem; 
+            color: var(--acentos); 
             margin-top: 0;
-            font-size: 1.6rem;
         }
 
-        .carta p {
-            font-size: 0.85rem;
-            line-height: 1.6;
-            color: var(--color-texto);
-            margin-bottom: 15px;
+        p { 
+            line-height: 1.7; 
+            font-size: 0.95rem; 
+            color: var(--texto);
         }
 
-        /* Estilos cuando el sobre está ABIERTO */
-        .abierto .sobre-tapa {
-            transform: rotateX(180deg);
-            z-index: 5; /* Pasa al fondo para no tapar nada */
+        .highlight { 
+            font-weight: 500; 
+            color: var(--dorado); 
+            border-bottom: 1.5px solid #eee;
         }
 
-        .abierto .carta {
-            transform: translateY(-230px); /* Sube la carta */
-            height: 400px; /* Se estira para leer mejor */
-            z-index: 20; /* Se pone delante de todo */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        .spotify-btn { 
+            background: #1DB954; 
+            color: white; 
+            text-decoration: none; 
+            padding: 12px 20px; 
+            border-radius: 30px; 
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px; 
+            font-weight: 500; 
+            font-size: 0.85rem; 
+            transition: 0.3s;
         }
 
-        .instruccion {
-            position: absolute;
-            bottom: -50px;
-            width: 100%;
-            text-align: center;
-            color: var(--color-acento);
-            font-weight: bold;
-            font-size: 0.9rem;
-            animation: latido 1.5s infinite;
+        .letter-footer { 
+            margin-top: 35px; 
+            text-align: center; 
+            border-top: 1px solid #f9f9f9; 
+            padding-top: 25px; 
         }
 
-        @keyframes latido {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        /* Scrollbar personalizado para la carta */
-        .carta::-webkit-scrollbar { width: 4px; }
-        .carta::-webkit-scrollbar-thumb { background: var(--color-tapa); border-radius: 10px; }
-
-        /* Ajustes para móviles */
-        @media (max-width: 400px) {
-            .sobre-wrapper { width: 280px; }
-            .sobre-tapa { border-left-width: 140px; border-right-width: 140px; }
-            .carta { width: 260px; }
+        .birthday-wish {
+            font-size: 1.4rem; 
+            font-family: 'Playfair Display', serif; 
+            font-weight: 700; 
+            color: var(--acentos);
+            margin: 0;
         }
     </style>
 </head>
 <body>
 
-    <div id="hearts-bg"></div>
-
-    <div class="sobre-wrapper" id="main-sobre" onclick="toggleSobre()">
-        <div class="sobre-tapa"></div>
-        <div class="sobre-cuerpo"></div>
-        <div class="carta">
-            <h2>Mi amor,</h2>
-            <p>¿Sabes? Me encantas. Eres una persona increíble y hermosa, y aunque llevemos poco tiempo hablando, eres la primera personita de la cual me he enamorado de forma virtual. Para mí, eso es algo muy especial, o al menos yo lo veo así.</p>
-            <p>Sé que este es un regalo digital y no algo físico, pero me pareció un detalle lindo hacerte algo así. Siento que es mucho más especial que solo recargarte oro en un juego, ¿no crees?</p>
-            <p>Aunque no sea un regalo que puedas guardar en un estante, es algo para recordarte siempre que te quiero mucho.</p>
-            <p>Te confieso que pensé en mandarte flores, jajaja, pero me pareció un poco raro... ¡principalmente porque no me sé tu dirección! Así que, por ahora, te envío esta sorpresa hecha con mucho cariño.</p>
-            <p style="text-align: center; font-family: 'Dancing Script'; font-size: 1.8rem; color: var(--color-acento); margin-top: 20px; border-top: 1px dashed var(--color-sobre); padding-top: 15px;">
-                Te quiero muchísimo.
-            </p>
+    <div class="container">
+        <div class="envelope-wrapper" id="envelope" onclick="abrirCarta()">
+            <p class="instruction">"Lo que siento por ti no cabe en un mensaje de WhatsApp... Toca para abrirlo."</p>
+            <div class="envelope-icon">✉️</div>
         </div>
-        <div class="instruccion">✨ ¡Toca el sobre para abrirlo! ✨</div>
+
+        <div class="letter-content" id="carta">
+            <h1>Hola Liz... ❤️</h1>
+            <p>Justo hoy cumplimos <span class="highlight">19 días</span> desde que estamos juntos, y en este tiempo te has vuelto una persona muy importante en mi vida.</p>
+            
+            <p>Eres esa persona que sé que va estar ahí para mí; eres mi <span class="highlight">lugar seguro</span> y una gran novia que me ha hecho sentir increíble y amado.</p>
+            
+            <p>De verdad, aunque yo no sea el mejor novio del mundo ni el más cariñoso, busco cada día ser el mejor novio para ti.</p>
+            
+            <div class="letter-footer">
+                <p class="birthday-wish">¡Feliz Cumpleaños, Liz! 🎂</p>
+                <a href="TU_LINK_DE_SPOTIFY_AQUI" class="spotify-btn" target="_blank">
+                   <span>🎧</span> Escuchar nuestra canción
+                </a>
+            </div>
+        </div>
     </div>
 
-    <script>
-        function toggleSobre() {
-            document.getElementById('main-sobre').classList.toggle('abierto');
+<script>
+    function abrirCarta() {
+        // 1. Efecto de Confeti (Corazones)
+        const duration = 2 * 1000;
+        const animationEnd = Date.now() + duration;
+        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+        function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
         }
 
-        // Generar corazones de fondo
-        const bg = document.getElementById('hearts-bg');
-        for (let i = 0; i < 15; i++) {
-            const h = document.createElement('div');
-            h.className = 'corazon';
-            h.innerHTML = '❤️';
-            h.style.left = Math.random() * 100 + 'vw';
-            h.style.animationDelay = Math.random() * 5 + 's';
-            h.style.fontSize = Math.random() * (25 - 12) + 12 + 'px';
-            bg.appendChild(h);
-        }
-    </script>
+        const interval = setInterval(function() {
+            const timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) return clearInterval(interval);
+
+            const particleCount = 20 * (timeLeft / duration);
+            confetti({ 
+                ...defaults, 
+                particleCount, 
+                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                colors: ['#ff69b4', '#ffb7b7', '#ff1493'],
+                shapes: ['heart']
+            });
+            confetti({ 
+                ...defaults, 
+                particleCount, 
+                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                colors: ['#ff69b4', '#ffb7b7', '#ff1493'],
+                shapes: ['heart']
+            });
+        }, 250);
+
+        // 2. Transición Visual
+        const env = document.getElementById('envelope');
+        const letter = document.getElementById('carta');
+        
+        env.style.opacity = '0';
+        env.style.pointerEvents = 'none';
+        
+        setTimeout(() => {
+            env.style.display = 'none';
+            letter.style.display = 'block';
+        }, 400);
+    }
+</script>
+
 </body>
 </html>
+
