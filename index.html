@@ -16,113 +16,42 @@
         body { 
             background-color: var(--fondo); 
             font-family: 'Montserrat', sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh;
-            overflow-x: hidden;
+            margin: 0; padding: 0; 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; overflow-x: hidden;
         }
 
-        /* Contenedor Principal */
-        .container {
-            width: 90%;
-            max-width: 450px;
-            text-align: center;
-            padding: 20px;
-        }
+        .container { width: 90%; max-width: 450px; text-align: center; padding: 20px; }
 
-        /* Estilo del Sobre */
-        .envelope-wrapper { 
-            cursor: pointer; 
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-        }
-
-        .envelope-wrapper:active { transform: scale(0.9); }
-
+        .envelope-wrapper { cursor: pointer; transition: all 0.5s ease; }
         .instruction { 
-            font-family: 'Playfair Display', serif; 
-            font-style: italic; 
-            font-size: 1.1rem; 
-            margin-bottom: 25px; 
-            color: #8e6d5d; 
+            font-family: 'Playfair Display', serif; font-style: italic; 
+            font-size: 1.1rem; margin-bottom: 25px; color: #8e6d5d; 
             animation: pulse 2s infinite; 
         }
 
         @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-        .envelope-icon {
-            font-size: 100px;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
-            user-select: none;
-        }
+        .envelope-icon { font-size: 100px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1)); }
 
-        /* Estilo de la Carta */
         .letter-content { 
-            display: none; 
-            background: white; 
-            padding: 35px 25px; 
-            border-radius: 15px; 
-            box-shadow: 0 15px 40px rgba(0,0,0,0.06); 
-            border: 1px solid #f2ece4;
-            text-align: left;
+            display: none; background: white; padding: 35px 25px; 
+            border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.06); 
+            border: 1px solid #f2ece4; text-align: left;
             animation: slideUp 0.8s ease-out forwards;
         }
 
-        @keyframes slideUp { 
-            from { transform: translateY(30px); opacity: 0; } 
-            to { transform: translateY(0); opacity: 1; } 
-        }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        h1 { 
-            font-family: 'Playfair Display', serif; 
-            font-size: 1.7rem; 
-            color: var(--acentos); 
-            margin-top: 0;
-        }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--acentos); margin-top: 0; }
+        p { line-height: 1.7; font-size: 0.95rem; color: var(--texto); }
+        .highlight { font-weight: 500; color: var(--dorado); }
 
-        p { 
-            line-height: 1.7; 
-            font-size: 0.95rem; 
-            color: var(--texto);
-        }
+        /* Estilo para el reproductor de Spotify */
+        .spotify-container { margin-top: 30px; border-radius: 12px; overflow: hidden; }
 
-        .highlight { 
-            font-weight: 500; 
-            color: var(--dorado); 
-            border-bottom: 1.5px solid #eee;
-        }
-
-        .spotify-btn { 
-            background: #1DB954; 
-            color: white; 
-            text-decoration: none; 
-            padding: 12px 20px; 
-            border-radius: 30px; 
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 25px; 
-            font-weight: 500; 
-            font-size: 0.85rem; 
-            transition: 0.3s;
-        }
-
-        .letter-footer { 
-            margin-top: 35px; 
-            text-align: center; 
-            border-top: 1px solid #f9f9f9; 
-            padding-top: 25px; 
-        }
-
-        .birthday-wish {
-            font-size: 1.4rem; 
-            font-family: 'Playfair Display', serif; 
-            font-weight: 700; 
-            color: var(--acentos);
-            margin: 0;
-        }
+        .letter-footer { margin-top: 35px; text-align: center; border-top: 1px solid #f9f9f9; padding-top: 25px; }
+        .birthday-wish { font-size: 1.4rem; font-family: 'Playfair Display', serif; font-weight: 700; color: var(--acentos); margin: 0; }
     </style>
 </head>
 <body>
@@ -143,52 +72,35 @@
             
             <div class="letter-footer">
                 <p class="birthday-wish">¡Feliz Cumpleaños, Liz! 🎂</p>
-                <a href="TU_LINK_DE_SPOTIFY_AQUI" class="spotify-btn" target="_blank">
-                   <span>🎧</span> Escuchar nuestra canción
-                </a>
+                
+                <div class="spotify-container">
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
             </div>
         </div>
     </div>
 
 <script>
     function abrirCarta() {
-        // 1. Efecto de Confeti (Corazones)
         const duration = 2 * 1000;
         const animationEnd = Date.now() + duration;
-        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
-        function randomInRange(min, max) {
-            return Math.random() * (max - min) + min;
-        }
 
         const interval = setInterval(function() {
             const timeLeft = animationEnd - Date.now();
             if (timeLeft <= 0) return clearInterval(interval);
 
-            const particleCount = 20 * (timeLeft / duration);
             confetti({ 
-                ...defaults, 
-                particleCount, 
-                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                particleCount: 15, spread: 70, 
+                origin: { x: Math.random(), y: Math.random() - 0.2 },
                 colors: ['#ff69b4', '#ffb7b7', '#ff1493'],
                 shapes: ['heart']
             });
-            confetti({ 
-                ...defaults, 
-                particleCount, 
-                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-                colors: ['#ff69b4', '#ffb7b7', '#ff1493'],
-                shapes: ['heart']
-            });
-        }, 250);
+        }, 200);
 
-        // 2. Transición Visual
         const env = document.getElementById('envelope');
         const letter = document.getElementById('carta');
         
         env.style.opacity = '0';
-        env.style.pointerEvents = 'none';
-        
         setTimeout(() => {
             env.style.display = 'none';
             letter.style.display = 'block';
@@ -198,4 +110,5 @@
 
 </body>
 </html>
+
 
