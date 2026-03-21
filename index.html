@@ -3,112 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:italic,wght@0,400;0,700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <title>Flores Amarillas para Ti ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --fondo: #fdf5e6;
-            --texto: #4a4a4a;
-            --acentos: #b08d8d;
-            --dorado: #d4a373;
+            --amarillo-pastel: #fefae0;
+            --amarillo-fuerte: #ffc300;
+            --verde: #606c38;
+            --texto: #283618;
         }
 
-        body { 
-            background-color: var(--fondo); 
-            font-family: 'Montserrat', sans-serif; 
-            margin: 0; padding: 0; 
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; overflow-x: hidden;
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--amarillo-pastel);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--texto);
+            overflow-x: hidden;
+            text-align: center;
         }
 
-        .container { width: 90%; max-width: 450px; text-align: center; padding: 20px; }
-
-        .envelope-wrapper { cursor: pointer; transition: all 0.5s ease; }
-        .instruction { 
-            font-family: 'Playfair Display', serif; font-style: italic; 
-            font-size: 1.1rem; margin-bottom: 25px; color: #8e6d5d; 
-            animation: pulse 2s infinite; 
+        /* Animación de flores cayendo */
+        .flower-rain {
+            position: fixed;
+            top: -10%;
+            pointer-events: none;
+            z-index: 100;
+            animation: fall linear infinite;
         }
 
-        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-
-        .envelope-icon { font-size: 100px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1)); }
-
-        .letter-content { 
-            display: none; background: white; padding: 35px 25px; 
-            border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.06); 
-            border: 1px solid #f2ece4; text-align: left;
-            animation: slideUp 0.8s ease-out forwards;
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
         }
 
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-        h1 { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--acentos); margin-top: 0; }
-        p { line-height: 1.7; font-size: 0.95rem; color: var(--texto); }
-        .highlight { font-weight: 500; color: var(--dorado); }
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--amarillo-fuerte);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin: 10px 0;
+        }
 
-        /* Estilo para el reproductor de Spotify */
-        .spotify-container { margin-top: 30px; border-radius: 12px; overflow: hidden; }
+        .mensaje {
+            font-size: 1.1rem;
+            max-width: 300px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
 
-        .letter-footer { margin-top: 35px; text-align: center; border-top: 1px solid #f9f9f9; padding-top: 25px; }
-        .birthday-wish { font-size: 1.4rem; font-family: 'Playfair Display', serif; font-weight: 700; color: var(--acentos); margin: 0; }
+        /* El Ramo Animado */
+        .bouquet {
+            font-size: 100px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: inline-block;
+        }
+
+        .bouquet:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .footer-text {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--verde);
+        }
+
+        /* Botón Aesthetic */
+        .btn-regalo {
+            background-color: var(--amarillo-fuerte);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 195, 0, 0.4);
+            display: inline-block;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="envelope-wrapper" id="envelope" onclick="abrirCarta()">
-            <p class="instruction">"Lo que siento por ti no cabe en un mensaje de WhatsApp... Toca para abrirlo."</p>
-            <div class="envelope-icon">✉️</div>
+    <section class="hero">
+        <div class="bouquet" id="ramo" onclick="lanzarFlores()">🌻</div>
+        <h1>Flores Amarillas</h1>
+        <p class="mensaje">
+            "Porque te mereces que te regalen flores siempre, pero hoy más que nunca." ✨
+        </p>
+        <div id="btn-container">
+            <a href="#" class="btn-regalo" onclick="lanzarFlores()">¡Toca para ver la sorpresa!</a>
         </div>
+        <p class="footer-text">Con mucho cariño para Liz ❤️</p>
+    </section>
 
-        <div class="letter-content" id="carta">
-            <h1>Hola Liz... ❤️</h1>
-            <p>Justo hoy cumplimos <span class="highlight">19 días</span> desde que estamos juntos, y en este tiempo te has vuelto una persona muy importante en mi vida.</p>
-            
-            <p>Eres esa persona que sé que va estar ahí para mí; eres mi <span class="highlight">lugar seguro</span> y una gran novia que me ha hecho sentir increíble y amado.</p>
-            
-            <p>De verdad, aunque yo no sea el mejor novio del mundo ni el más cariñoso, busco cada día ser el mejor novio para ti.</p>
-            
-            <div class="letter-footer">
-                <p class="birthday-wish">¡Feliz Cumpleaños, Liz! 🎂</p>
-                
-                <div class="spotify-container">
-                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
+    <script>
+        // Función para crear lluvia de flores
+        function createFlower() {
+            const flowers = ['🌻', '🌼', '💛', '✨'];
+            const flower = document.createElement('div');
+            flower.className = 'flower-rain';
+            flower.innerText = flowers[Math.floor(Math.random() * flowers.length)];
+            flower.style.left = Math.random() * 100 + 'vw';
+            flower.style.animationDuration = Math.random() * 3 + 2 + 's';
+            flower.style.fontSize = Math.random() * 20 + 20 + 'px';
+            document.body.appendChild(flower);
 
-<script>
-    function abrirCarta() {
-        const duration = 2 * 1000;
-        const animationEnd = Date.now() + duration;
+            setTimeout(() => {
+                flower.remove();
+            }, 5000);
+        }
 
-        const interval = setInterval(function() {
-            const timeLeft = animationEnd - Date.now();
-            if (timeLeft <= 0) return clearInterval(interval);
+        setInterval(createFlower, 300);
 
-            confetti({ 
-                particleCount: 15, spread: 70, 
-                origin: { x: Math.random(), y: Math.random() - 0.2 },
-                colors: ['#ff69b4', '#ffb7b7', '#ff1493'],
-                shapes: ['heart']
-            });
-        }, 200);
+        // Confeti de flores al hacer clic
+        function lanzarFlores() {
+            var count = 200;
+            var defaults = { origin: { y: 0.7 } };
 
-        const env = document.getElementById('envelope');
-        const letter = document.getElementById('carta');
-        
-        env.style.opacity = '0';
-        setTimeout(() => {
-            env.style.display = 'none';
-            letter.style.display = 'block';
-        }, 400);
-    }
-</script>
+            function fire(particleRatio, opts) {
+                confetti({
+                    ...defaults,
+                    ...opts,
+                    particleCount: Math.floor(count * particleRatio),
+                    colors: ['#FFD700', '#FFA500', '#FFFF00']
+                });
+            }
 
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+    </script>
 </body>
 </html>
-
-
