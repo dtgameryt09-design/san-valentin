@@ -1,152 +1,132 @@
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flores Amarillas para Ti ✨</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <title>Flores Amarillas para Liz 🌻</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --amarillo-pastel: #fefae0;
-            --amarillo-fuerte: #ffc300;
-            --verde: #606c38;
-            --texto: #283618;
+            --amarillo: #ffda00;
+            --crema: #fffdf2;
+            --verde: #4a5d23;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--amarillo-pastel);
-            font-family: 'Montserrat', sans-serif;
-            color: var(--texto);
-            overflow-x: hidden;
-            text-align: center;
+            margin: 0; background-color: var(--crema);
+            font-family: 'Montserrat', sans-serif; color: #333;
+            overflow-x: hidden; scroll-behavior: smooth;
         }
 
-        /* Animación de flores cayendo */
-        .flower-rain {
-            position: fixed;
-            top: -10%;
-            pointer-events: none;
-            z-index: 100;
-            animation: fall linear infinite;
+        /* Vinilo Giratorio */
+        .music-player {
+            position: fixed; top: 20px; right: 20px; z-index: 1000;
+            cursor: pointer; text-align: center;
         }
+        .disc {
+            width: 65px; height: 65px; background: #222;
+            border-radius: 50%; border: 4px solid var(--amarillo);
+            animation: rotate 4s linear infinite; animation-play-state: paused;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .disc::after { content: '💛'; font-size: 20px; }
+        .playing .disc { animation-play-state: running; }
+        
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
+        /* Lluvia de Flores */
+        .sunflower {
+            position: fixed; top: -10%; pointer-events: none;
+            z-index: 99; animation: fall linear infinite;
         }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+        section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; box-sizing: border-box; }
 
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3.5rem;
-            color: var(--amarillo-fuerte);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            margin: 10px 0;
-        }
+        .hero h1 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--amarillo); margin: 0; text-shadow: 1px 1px 10px rgba(0,0,0,0.1); text-align: center; }
 
-        .mensaje {
-            font-size: 1.1rem;
-            max-width: 300px;
-            line-height: 1.6;
-            margin-bottom: 30px;
+        /* Galería de Fotos */
+        .photo-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 30px; }
+        
+        .photo-frame {
+            background: white; padding: 15px; border-radius: 2px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            max-width: 280px; transition: 0.3s;
         }
+        .photo-frame img { width: 100%; border-radius: 2px; filter: sepia(20%); }
+        .photo-frame p { font-family: 'Dancing Script'; margin: 10px 0 0; font-size: 1.3rem; text-align: center; color: var(--verde); }
 
-        /* El Ramo Animado */
-        .bouquet {
-            font-size: 100px;
-            cursor: pointer;
-            transition: transform 0.3s;
-            display: inline-block;
+        .btn-flower {
+            background: var(--amarillo); border: none; padding: 15px 35px;
+            border-radius: 50px; font-weight: 600; color: #554400;
+            cursor: pointer; box-shadow: 0 5px 15px rgba(255, 218, 0, 0.4);
+            transition: 0.3s; font-size: 1.1rem; margin-top: 20px;
         }
+        .btn-flower:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255, 218, 0, 0.6); }
 
-        .bouquet:hover {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .footer-text {
-            margin-top: 50px;
-            font-size: 0.9rem;
-            font-style: italic;
-            color: var(--verde);
-        }
-
-        /* Botón Aesthetic */
-        .btn-regalo {
-            background-color: var(--amarillo-fuerte);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(255, 195, 0, 0.4);
-            display: inline-block;
-            margin-top: 20px;
-        }
+        /* Reproductor de Spotify Oculto para que suene Yellow */
+        .spotify-hidden { display: none; }
     </style>
 </head>
 <body>
 
+    <div class="music-player" id="player" onclick="toggleMusic()">
+        <div class="disc"></div>
+        <small style="display:block; margin-top:8px; font-weight:bold; color:var(--verde); text-transform:uppercase; letter-spacing:1px; font-size:10px;">Click para Yellow 🎵</small>
+        <audio id="song" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            </audio>
+    </div>
+
     <section class="hero">
-        <div class="bouquet" id="ramo" onclick="lanzarFlores()">🌻</div>
-        <h1>Flores Amarillas</h1>
-        <p class="mensaje">
-            "Porque te mereces que te regalen flores siempre, pero hoy más que nunca." ✨
-        </p>
-        <div id="btn-container">
-            <a href="#" class="btn-regalo" onclick="lanzarFlores()">¡Toca para ver la sorpresa!</a>
+        <h1>Flores Amarillas para Liz</h1>
+        <p style="color: #888; font-size: 0.9rem;">"Look at the stars, look how they shine for you..." ✨</p>
+        
+        <div class="photo-container">
+            <div class="photo-frame" style="transform: rotate(-2deg);">
+                <img src="1774137502947.jpg" alt="Ramo Real">
+                <p>Flores que nunca se marchitan 🌻</p>
+            </div>
+
+            <div class="photo-frame" style="transform: rotate(3deg);">
+                <img src="1774137570154.jpg" alt="Dibujo Flores">
+                <p>Para mi lugar seguro 🌼</p>
+            </div>
         </div>
-        <p class="footer-text">Con mucho cariño para Liz ❤️</p>
+
+        <button class="btn-flower" onclick="celebrate()">¡Toca para florecer!</button>
+    </section>
+
+    <section style="background: #fffef2; border-top: 2px dashed var(--amarillo);">
+        <img src="1774137585938.jpg" style="width: 150px; margin-bottom: 20px;" alt="Flor Minimalista">
+        <p style="max-width: 500px; text-align: center; font-size: 1.3rem; line-height: 1.8; color: var(--verde); font-weight: 500;">
+            "Hoy 21 de marzo, te envío estas flores amarillas porque quiero que te quedes en mi vida por mucho tiempo más. Gracias por ser mi sol." 💛
+        </p>
+        
+        <div style="margin-top: 30px; width: 100%; max-width: 300px;">
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/3PfJwSdyS9gnq9S9Xv8SIn?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
     </section>
 
     <script>
-        // Función para crear lluvia de flores
-        function createFlower() {
-            const flowers = ['🌻', '🌼', '💛', '✨'];
-            const flower = document.createElement('div');
-            flower.className = 'flower-rain';
-            flower.innerText = flowers[Math.floor(Math.random() * flowers.length)];
-            flower.style.left = Math.random() * 100 + 'vw';
-            flower.style.animationDuration = Math.random() * 3 + 2 + 's';
-            flower.style.fontSize = Math.random() * 20 + 20 + 'px';
-            document.body.appendChild(flower);
-
-            setTimeout(() => {
-                flower.remove();
-            }, 5000);
+        // Lluvia de flores amarillas (🌻 🌼 💛)
+        function spawnFlower() {
+            const f = document.createElement('div');
+            f.className = 'sunflower';
+            const items = ['🌻', '🌼', '💛', '✨'];
+            f.innerHTML = items[Math.floor(Math.random()*items.length)];
+            f.style.left = Math.random() * 100 + 'vw';
+            f.style.fontSize = (Math.random() * 25 + 15) + 'px';
+            f.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            f.style.opacity = Math.random();
+            document.body.appendChild(f);
+            setTimeout(() => f.remove(), 6000);
         }
+        setInterval(spawnFlower, 350);
 
-        setInterval(createFlower, 300);
-
-        // Confeti de flores al hacer clic
-        function lanzarFlores() {
-            var count = 200;
-            var defaults = { origin: { y: 0.7 } };
-
-            function fire(particleRatio, opts) {
-                confetti({
-                    ...defaults,
-                    ...opts,
-                    particleCount: Math.floor(count * particleRatio),
-                    colors: ['#FFD700', '#FFA500', '#FFFF00']
-                });
-            }
-
-            fire(0.25, { spread: 26, startVelocity: 55 });
-            fire(0.2, { spread: 60 });
-            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
-            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
-            fire(0.1, { spread: 120, startVelocity: 45 });
-        }
-    </script>
-</body>
-</html>
+        // Control del Vinilo
+        function toggleMusic() {
+            const player = document.getElementById('player');
+            const disc
